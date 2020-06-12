@@ -8,19 +8,24 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
   },
-
   devServer: {
     port: "3030",
     hot: true,
     open: true,
   },
-
   module: {
     rules: [
       {
         test: /\.js(x?)$/,
-        loader: "babel-loader",
         exclude: /node_modules/,
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: [["@babel/preset-env", "@emotion/babel-preset-css-prop"]],
+            },
+          },
+        ],
       },
       {
         test: /\.ts(x?)$/,
@@ -29,13 +34,11 @@ module.exports = {
       },
     ],
   },
-
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
     }),
   ],
-
   resolve: {
     extensions: [".js", ".ts", ".tsx"],
   },
